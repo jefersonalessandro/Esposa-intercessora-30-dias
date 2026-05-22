@@ -3,7 +3,7 @@ import { Analytics } from '@vercel/analytics/next'
 import '../styles/globals.css'
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID
-const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || 'wv2a2p348w'
 
 export default function App({ Component, pageProps }) {
   return (
