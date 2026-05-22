@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
+import { trackFunnelEvent } from '../lib/funnelAnalytics'
 
 // ─── SUBSTITUA AQUI pelo link do seu produto na Cakto ───────────────────────
 const CAKTO_LINK = process.env.NEXT_PUBLIC_CAKTO_LINK || 'https://pay.cakto.com.br/SEU-LINK-AQUI'
@@ -403,6 +404,10 @@ const S = {
 // ─── TELAS ──────────────────────────────────────────────────────────────────
 
 function LandingScreen({ onStart }) {
+  useEffect(() => {
+    trackFunnelEvent('funnel_landing_viewed', { step: 'landing' })
+  }, [])
+
   return (
     <div style={S.wrapper}>
       <div style={S.card}>
@@ -462,6 +467,14 @@ function QuizScreen({ question, questionIndex, total, onAnswer }) {
   const [selected, setSelected] = useState(null)
   const progress = ((questionIndex) / total) * 100
 
+  useEffect(() => {
+    trackFunnelEvent('funnel_question_viewed', {
+      step: 'quiz',
+      question_number: questionIndex + 1,
+      question_id: question.id,
+    })
+  }, [question.id, questionIndex])
+
   function handleContinue() {
     if (selected !== null) onAnswer(question.options[selected])
   }
@@ -513,6 +526,10 @@ function QuizScreen({ question, questionIndex, total, onAnswer }) {
 
 function NameScreen({ onSubmit }) {
   const [name, setName] = useState('')
+
+  useEffect(() => {
+    trackFunnelEvent('funnel_name_screen_viewed', { step: 'name' })
+  }, [])
 
   return (
     <div style={S.wrapper}>
@@ -685,6 +702,13 @@ function LoadingScreen2({ name, onDone }) {
 }
 
 function ResultScreen({ name, result, onContinue }) {
+  useEffect(() => {
+    trackFunnelEvent('funnel_result_viewed', {
+      step: 'result',
+      result_tag: result.tag,
+    })
+  }, [result.tag])
+
   return (
     <div style={S.wrapper}>
       <div style={S.card}>
@@ -706,7 +730,13 @@ function ResultScreen({ name, result, onContinue }) {
 
         <button
           style={S.btn}
-          onClick={onContinue}
+          onClick={() => {
+            trackFunnelEvent('funnel_offer_requested', {
+              step: 'result',
+              result_tag: result.tag,
+            })
+            onContinue()
+          }}
         >
           QUERO COMEÇAR MEUS 30 DIAS DE ORAÇÃO →
         </button>
@@ -718,6 +748,14 @@ function ResultScreen({ name, result, onContinue }) {
 }
 
 function SalesScreen({ name, result }) {
+  useEffect(() => {
+    trackFunnelEvent('funnel_offer_viewed', {
+      step: 'sales',
+      result_tag: result.tag,
+      offer_price: 37,
+    })
+  }, [result.tag])
+
   return (
     <div style={S.wrapper}>
       <div style={S.card}>
@@ -790,6 +828,13 @@ function SalesScreen({ name, result }) {
           style={S.ctaBtn}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => {
+            trackFunnelEvent('funnel_checkout_clicked', {
+              step: 'checkout',
+              result_tag: result.tag,
+              offer_price: 37,
+            })
+          }}
         >
           QUERO COMEÇAR MEUS 30 DIAS DE ORAÇÃO →
         </a>
@@ -829,6 +874,19 @@ export default function Home() {
 
   function handleAnswer(answer) {
     const newAnswers = [...answers, answer]
+    const selectedIndex = QUESTIONS[currentQuestion].options.indexOf(answer)
+
+    if (answers.length === 0) {
+      trackFunnelEvent('funnel_quiz_started', { step: 'quiz' })
+    }
+
+    trackFunnelEvent('funnel_question_answered', {
+      step: 'quiz',
+      question_number: currentQuestion + 1,
+      question_id: QUESTIONS[currentQuestion].id,
+      option_index: selectedIndex + 1,
+    })
+
     setAnswers(newAnswers)
 
     if (currentQuestion < QUESTIONS.length - 1) {
@@ -839,6 +897,7 @@ export default function Home() {
   }
 
   function handleName(name) {
+    trackFunnelEvent('funnel_name_submitted', { step: 'name' })
     setUserName(name)
     setScreen('loading1')
   }
