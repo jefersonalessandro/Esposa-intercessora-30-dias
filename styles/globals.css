@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --marrom: #4A2008;
+  --marrom-medio: #7B3F10;
+  --dourado: #B8860B;
+  --dourado-claro: #D4A843;
+  --creme: #FBF7F0;
+  --creme-escuro: #EDE3D0;
+  --branco: #FFFFFF;
+  --texto: #2C1A0E;
+  --texto-leve: #6B4226;
+  --sombra: rgba(74, 32, 8, 0.12);
+}
+
+html, body {
+  font-family: 'Lato', sans-serif;
+  background: var(--creme);
+  color: var(--texto);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+}
+
+input {
+  font-family: 'Lato', sans-serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
