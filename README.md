@@ -21,7 +21,7 @@ NEXT_PUBLIC_CAKTO_LINK=https://pay.cakto.com.br/seu-link-real
 
 ## Analytics do funil
 
-O app envia eventos de funil para o Vercel Web Analytics e, opcionalmente, para o GA4 se `NEXT_PUBLIC_GA_ID` estiver configurado. No Vercel, eventos customizados exigem plano Pro ou Enterprise; se o projeto estiver no Hobby, use GA4 para analisar o funil.
+O app envia eventos de funil para o Vercel Web Analytics, Microsoft Clarity e, opcionalmente, GA4. No Vercel, eventos customizados exigem plano Pro ou Enterprise; se o projeto estiver no Hobby, use Clarity ou GA4 para analisar o funil.
 
 Eventos principais:
 
@@ -41,6 +41,20 @@ No Vercel, ative **Web Analytics** no projeto e veja os eventos na aba **Analyti
 ```bash
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
+
+Para Microsoft Clarity, crie um projeto em `https://clarity.microsoft.com`, copie o ID do projeto e configure:
+
+```bash
+NEXT_PUBLIC_CLARITY_ID=xxxxxxxxxx
+```
+
+Além dos eventos `funnel_*`, o Clarity também recebe aliases em português para facilitar leitura:
+
+- `quiz_q1_respondida` até `quiz_q6_respondida`
+- `quiz_completo`
+- `nome_inserido`
+- `resultado_viu_cta`
+- `clicou_comprar`
 
 ## Scripts
 
