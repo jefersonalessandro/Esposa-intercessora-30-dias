@@ -45,7 +45,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 Para Microsoft Clarity, crie um projeto em `https://clarity.microsoft.com`, copie o ID do projeto e configure:
 
 ```bash
-NEXT_PUBLIC_CLARITY_ID=xxxxxxxxxx
+NEXT_PUBLIC_CLARITY_ID=wv2a2p348w
 ```
 
 Além dos eventos `funnel_*`, o Clarity também recebe aliases em português para facilitar leitura:

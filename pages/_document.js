@@ -1,5 +1,7 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 
+const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID || 'wv2a2p348w'
+
 export default function Document() {
   return (
     <Html lang="pt-BR">
@@ -11,6 +13,20 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta name="theme-color" content="#4A2008" />
         <link rel="icon" href="/favicon.ico" />
+        {CLARITY_ID && (
+          <script
+            id="microsoft-clarity"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(c,l,a,r,i,t,y){
+                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                })(window, document, "clarity", "script", "${CLARITY_ID}");
+              `,
+            }}
+          />
+        )}
       </Head>
       <body>
         <Main />
